@@ -1,6 +1,5 @@
 package com.example.cherry
 
-import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -8,36 +7,26 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import com.example.cherry.auth.IntroActivity
 import com.example.cherry.slider.CardStackAdapter
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.Direction
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
-import android.widget.Button
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.bumptech.glide.Glide
 import com.example.cherry.auth.UserDataModel
+import com.example.cherry.message.ChatMainActivity
 import com.example.cherry.message.MyLikeListActivity
-import com.example.cherry.message.MyMsgActivity
 import com.example.cherry.setting.MyPageActivity
-import com.example.cherry.setting.SettingActivity
 import com.example.cherry.utils.FirebaseRef
 import com.example.cherry.utils.FirebaseUtils
 import com.example.cherry.utils.MyInfo
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.storage.ktx.storage
 
 class MainActivity : AppCompatActivity() {
     lateinit var cardstackAdapter : CardStackAdapter
@@ -76,7 +65,8 @@ class MainActivity : AppCompatActivity() {
         //chatting option
         val chatting=findViewById<ImageView>(R.id.chatting)
         chatting.setOnClickListener{
-            val intent_chatting=Intent(this, MyMsgActivity::class.java)
+            //val intent_chatting=Intent(this, MyMsgActivity::class.java)
+            val intent_chatting=Intent(this, ChatMainActivity::class.java)
             startActivity(intent_chatting)
         }
 

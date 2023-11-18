@@ -20,6 +20,8 @@ import com.example.cherry.utils.FirebaseUtils
 import com.example.cherry.utils.MyInfo
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.util.UUID
 
@@ -33,6 +35,11 @@ class MyLikeListActivity : AppCompatActivity() {
     private val likeUserList= mutableListOf<UserDataModel>()
 
     lateinit var listViewAdapter : ListViewAdapter
+
+    lateinit var mDbRef: DatabaseReference
+    private lateinit var senderRoom: String
+    private lateinit var receiverRoom: String
+    private lateinit var receiverUid: String
 
     //reciever's uid
     lateinit var getterUid : String
@@ -162,6 +169,7 @@ class MyLikeListActivity : AppCompatActivity() {
                     }
                     if(check_matching){
                         //dialog
+                        receiverUid = otherUid
                         showDialog()
                     }
                     else{
@@ -239,15 +247,22 @@ class MyLikeListActivity : AppCompatActivity() {
         btn?.setOnClickListener {
             var messageUid = UUID.randomUUID().toString()
             if (messageUid != null) {
-                val mgsModel = MsgModel(
-                    MyInfo.myNickname,
-                    textArea!!.text.toString(),
-                    uid,
-                    messageUid
-                )
-                //send msginfo to firebase
-                FirebaseRef.userMsgRef.child(getterUid!!).child(messageUid)
-                    .setValue(mgsModel)
+                val message = textArea!!.text.toString()
+                val messageObject = Message(message, uid)
+
+                mDbRef = FirebaseDatabase.getInstance().reference
+
+                // 보낸이방
+                senderRoom = receiverUid + uid
+                receiverRoom = uid + receiverUid
+
+                // 데이터 저장
+                mDbRef.child("chats").child(senderRoom).child("messages").push()
+                    .setValue(messageObject).addOnSuccessListener {
+                        // 저장 성공하면
+                        mDbRef.child("chats").child(receiverRoom).child("messages").push()
+                            .setValue(messageObject)
+                    }
             }
             //off dialog
             mAlertDialog.dismiss()

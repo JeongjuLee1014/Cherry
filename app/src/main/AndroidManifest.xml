@@ -47,6 +47,12 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+        <activity
+            android:name=".message.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".message.ChatMainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
